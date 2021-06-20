@@ -10,6 +10,6 @@ Commands:
 
 Arguments:
 
-/libabel geturl <plaintext file URL> <book title>
+/libabel geturl \<plaintext file URL\> \<book title\>
   - creates books whose contents are that of the plaintext URL provided, and whose names are the book title provided.
   

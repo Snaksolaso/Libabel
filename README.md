@@ -8,7 +8,7 @@ Commands:
 (alias: /lbb)
   - root command which forks into all functions of this plugin with additional arguments.
 
-arguments:
+Arguments:
 
 /libabel geturl <plaintext file URL> <book title>
   - creates books whose contents are that of the plaintext URL provided, and whose names are the book title provided.

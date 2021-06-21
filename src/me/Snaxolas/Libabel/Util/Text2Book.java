@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
 public class Text2Book {
-    public static ItemStack[] stringToBooks(String s, String title){
+    public static ItemStack[] stringToBooks(String s, String title, int charsPerPage){
 
         int authorIndex = s.indexOf("Author: ");
         String author = "";
@@ -21,6 +21,8 @@ public class Text2Book {
 
             if(returnIndex != -1 && newLineIndex != -1){
                 author = s.substring(authorIndex + 8, Integer.min(newLineIndex, returnIndex)).trim();
+            }else if (returnIndex == -1 && newLineIndex == -1){
+                //do nothing
             }else{
                 author = s.substring(authorIndex + 8, (newLineIndex == -1) ? returnIndex : newLineIndex ).trim();
             }
@@ -37,10 +39,10 @@ public class Text2Book {
         for(int i = 0; i < 10; i++){
             s = s.replaceAll(" {2}", " ");
         }
+        Bukkit.getConsoleSender().sendMessage("" + s.lines().toArray().length);
 
 
-
-        int volCount = (int)Math.ceil(s.length() / 12800.0);
+        int volCount = (int)Math.ceil((double)s.length() / (charsPerPage * 50));
 
         String[] titleArr = new String[volCount];
 
@@ -73,15 +75,16 @@ public class Text2Book {
             bm.setTitle(titleArr[i]);
             bm.setAuthor(author);
             for(int j = 0; j < 50; j++){
-                if((charCount + 250) > s.length()){
+                if((charCount + charsPerPage) > s.length()){
                     bm.addPage(s.substring(charCount));
+                    charCount += charsPerPage;
                     break;
-                }else if(!Character.isWhitespace(s.charAt(249)) && Character.isWhitespace(s.charAt(250))){
-                    bm.addPage(s.substring(charCount, charCount + 250));
-                    charCount += 250;
+                }else if(!Character.isWhitespace(s.charAt(charsPerPage - 1)) && Character.isWhitespace(s.charAt(charsPerPage))){
+                    bm.addPage(s.substring(charCount, charCount + charsPerPage));
+                    charCount += charsPerPage;
                 }else{
-                    bm.addPage(s.substring(charCount, charCount + 250) + "-");
-                    charCount += 250;
+                    bm.addPage(s.substring(charCount, charCount + charsPerPage) + "-");
+                    charCount += charsPerPage;
                 }
             }
             book.setItemMeta(bm);

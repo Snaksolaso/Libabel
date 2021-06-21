@@ -22,7 +22,7 @@ public class BookIO {
 
 
     public static boolean checkDuplicate(BookMeta book) {
-        return false;
+        return new File(bookFolder + book.hashCode() + ".book").exists();
     }
 
     public static BookMeta pull(String scope, String title){
@@ -31,7 +31,6 @@ public class BookIO {
 
     public static void publish(BookMeta book) {
         saveObject(bookFolder + File.separator + book.hashCode() + ".book", book);
-
     }
 
     public static boolean saveObject(String filePath, Object hm) {

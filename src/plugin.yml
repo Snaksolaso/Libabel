@@ -1,7 +1,7 @@
 main: me.Snaxolas.Libabel.Main
 name: Libabel
 api-version: 1.17
-version: 1.0
+version: 2.0
 author: Snaxolas
 commands:
   libabel:

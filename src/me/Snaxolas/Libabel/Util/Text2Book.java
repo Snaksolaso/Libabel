@@ -29,7 +29,6 @@ public class Text2Book {
 
         }
 
-
         // sanitize
         s = s.strip();
         s = s.replaceAll("\n", " ");

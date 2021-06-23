@@ -21,22 +21,11 @@ public class BookIO {
     private static String bookFolder = Bukkit.getPluginManager().getPlugin("Libabel").getDataFolder().getPath() + File.separator + "Books";
 
 
-    public static boolean checkDuplicate(BookMeta book) {
-        return new File(bookFolder + book.hashCode() + ".book").exists();
-    }
 
-    public static BookMeta pull(String scope, String title){
-        return null;
-    }
-
-    public static void publish(BookMeta book) {
-        saveObject(bookFolder + File.separator + book.hashCode() + ".book", book);
-    }
-
-    public static boolean saveObject(String filePath, Object hm) {
+    public static boolean saveBook(String filePath, BookMeta book) {
         try {
-            BukkitObjectOutputStream out = new BukkitObjectOutputStream(new GZIPOutputStream(new FileOutputStream(filePath)));
-            out.writeObject(hm);
+            BukkitObjectOutputStream out = new BukkitObjectOutputStream(new FileOutputStream(filePath));
+            out.writeObject(book);
             out.close();
             return true;
         } catch (IOException e) {
@@ -46,12 +35,12 @@ public class BookIO {
         }
     }
 
-    public static Object loadObject(String filePath) {
+    public static BookMeta loadBook(String filePath) {
         try {
-            BukkitObjectInputStream in = new BukkitObjectInputStream(new GZIPInputStream(new FileInputStream(filePath)));
-            Object data = in.readObject();
+            BukkitObjectInputStream in = new BukkitObjectInputStream(new FileInputStream(filePath));
+            BookMeta book = (BookMeta) in.readObject();
             in.close();
-            return data;
+            return book;
         } catch (ClassNotFoundException | IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

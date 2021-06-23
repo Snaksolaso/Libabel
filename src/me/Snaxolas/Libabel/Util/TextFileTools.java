@@ -19,6 +19,17 @@ public class TextFileTools {
         }
     }
 
+    public static boolean writeStringToFile(File toPath, String str){
+        try {
+            byte[] s = str.getBytes(StandardCharsets.UTF_8);
+            FileOutputStream fos = new FileOutputStream(toPath);
+            fos.write(s);
+            return true;
+        }catch (IOException e){
+            return false;
+        }
+    }
+
     public static String getStringFromFile(File f) {
         try {
             FileInputStream fis = new FileInputStream(f);
